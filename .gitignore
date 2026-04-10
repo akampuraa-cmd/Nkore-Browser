@@ -1,0 +1,31 @@
+# Nkore Browser - Dependency directories
+node_modules/
+dist/
+
+# Tauri build artifacts
+src-tauri/target/
+src-tauri/WixTools/
+src-tauri/gen/
+
+# Build outputs
+*.dmg
+*.deb
+*.AppImage
+*.exe
+*.msi
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local environment
+.env
+.env.local
