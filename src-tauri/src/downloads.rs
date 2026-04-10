@@ -231,10 +231,19 @@ async fn run_download(
     loop {
         tokio::select! {
             cmd = cancel_rx.recv() => {
-                if matches!(cmd, Some(DownloadCommand::Cancel) | None) {
-                    let _ = tokio::fs::remove_file(&save_path).await;
-                    emit_status(&app, &id, "cancelled", None);
-                    return;
+                match cmd {
+                    Some(DownloadCommand::Cancel) => {
+                        let _ = tokio::fs::remove_file(&save_path).await;
+                        emit_status(&app, &id, "cancelled", None);
+                        return;
+                    }
+                    None => {
+                        // Channel closed unexpectedly; treat as failure rather than
+                        // silently deleting the partial download.
+                        log::warn!("Download {} command channel closed unexpectedly", id);
+                        emit_status(&app, &id, "failed", Some("Download interrupted".to_string()));
+                        return;
+                    }
                 }
             }
             chunk = stream.next() => {

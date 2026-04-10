@@ -42,7 +42,7 @@ async function main() {
     const isOpen = !panel.classList.contains('hidden');
     // Close all panels first
     Object.values(panels).forEach(p => p.classList.add('hidden'));
-    Object.querySelectorAll && Object.keys(panels).forEach(n => {
+    Object.keys(panels).forEach(n => {
       document.getElementById(`btn-${n}`)?.classList.remove('active');
     });
     backdrop.classList.add('hidden');

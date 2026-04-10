@@ -29,7 +29,7 @@ function escHtml(str) {
 
 function filteredItems() {
   if (activeFilter === 'all') return mediaItems;
-  return mediaItems.filter(m => m.type === activeFilter || m.type === 'source');
+  return mediaItems.filter(m => m.type === activeFilter || (activeFilter === 'video' && m.type === 'source'));
 }
 
 // ── Determine media type icon / badge ─────────────────────────────────────────

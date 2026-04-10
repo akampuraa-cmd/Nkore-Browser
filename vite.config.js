@@ -16,6 +16,6 @@ export default defineConfig(async () => ({
     },
   },
   // 3. to make use of `TAURI_DEBUG` and other env variables
-  // https://tauri.studio/v1/api/config#buildconfig.beforedevcommand
+  // https://v2.tauri.app/reference/config/
   envPrefix: ["VITE_", "TAURI_"],
 }));

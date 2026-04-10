@@ -119,7 +119,7 @@ async fn close_tab(
                 info.is_active = true;
             }
         }
-        browser.tabs.get(new_id.as_deref().unwrap_or("")).cloned()
+        new_id.as_deref().and_then(|id| browser.tabs.get(id)).cloned()
     } else {
         None
     };
