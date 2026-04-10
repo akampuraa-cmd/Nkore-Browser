@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' tauri: http: https: data: blob:; img-src 'self' data: blob: http: https:;" />
+    <title>Nkore Browser</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- ═══════════════════ BROWSER CHROME ═══════════════════ -->
+    <div id="app">
+
+      <!-- ── Top Chrome Bar ──────────────────────────────────── -->
+      <header id="chrome-bar" data-tauri-drag-region>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls" id="nav-controls">
+          <button id="btn-back"    class="nav-btn" title="Go Back (Alt+Left)"    disabled>
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </button>
+          <button id="btn-forward" class="nav-btn" title="Go Forward (Alt+Right)" disabled>
+            <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </button>
+          <button id="btn-reload"  class="nav-btn" title="Reload (F5)">
+            <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          </button>
+          <button id="btn-home"    class="nav-btn" title="Home">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </button>
+        </div>
+
+        <!-- Address / Search Bar -->
+        <div class="address-bar-container" id="address-bar-container">
+          <div class="security-icon" id="security-icon" title="Connection secure">
+            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          </div>
+          <input
+            type="text"
+            id="address-input"
+            class="address-input"
+            placeholder="Search DuckDuckGo or enter URL…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="address-right-icons">
+            <button id="btn-bookmark" class="icon-btn" title="Bookmark this page">
+              <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Toolbar Actions -->
+        <div class="toolbar-actions">
+          <button id="btn-media-sniffer" class="tool-btn" title="Media Sniffer">
+            <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+          </button>
+          <button id="btn-downloads"     class="tool-btn" title="Downloads">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          </button>
+          <button id="btn-bookmarks"     class="tool-btn" title="Bookmarks">
+            <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+          </button>
+          <button id="btn-history"       class="tool-btn" title="History">
+            <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+          </button>
+          <button id="btn-menu"          class="tool-btn" title="Menu">
+            <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Tab Bar ──────────────────────────────────────────── -->
+      <div id="tab-bar">
+        <div id="tabs-list" class="tabs-list">
+          <!-- Tabs rendered here by tabs.js -->
+        </div>
+        <button id="btn-new-tab" class="new-tab-btn" title="New Tab (Ctrl+T)">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </button>
+      </div>
+
+      <!-- ── Loading Progress Bar ────────────────────────────── -->
+      <div id="loading-bar" class="loading-bar hidden"></div>
+    </div>
+
+    <!-- ═══════════════════ PANEL OVERLAYS ═══════════════════ -->
+
+    <!-- Downloads Panel -->
+    <div id="panel-downloads" class="side-panel hidden">
+      <div class="panel-header">
+        <h2>Downloads</h2>
+        <div class="panel-actions">
+          <button id="btn-clear-downloads" class="panel-action-btn">Clear finished</button>
+          <button class="panel-close-btn" data-panel="downloads">✕</button>
+        </div>
+      </div>
+      <div id="downloads-list" class="panel-content">
+        <p class="panel-empty">No downloads yet.</p>
+      </div>
+    </div>
+
+    <!-- Bookmarks Panel -->
+    <div id="panel-bookmarks" class="side-panel hidden">
+      <div class="panel-header">
+        <h2>Bookmarks</h2>
+        <button class="panel-close-btn" data-panel="bookmarks">✕</button>
+      </div>
+      <div id="bookmarks-list" class="panel-content">
+        <p class="panel-empty">No bookmarks yet.</p>
+      </div>
+    </div>
+
+    <!-- History Panel -->
+    <div id="panel-history" class="side-panel hidden">
+      <div class="panel-header">
+        <h2>History</h2>
+        <div class="panel-actions">
+          <input id="history-search" type="text" placeholder="Search history…" />
+          <button id="btn-clear-history" class="panel-action-btn danger">Clear All</button>
+          <button class="panel-close-btn" data-panel="history">✕</button>
+        </div>
+      </div>
+      <div id="history-list" class="panel-content">
+        <p class="panel-empty">No browsing history.</p>
+      </div>
+    </div>
+
+    <!-- Media Sniffer Panel -->
+    <div id="panel-media-sniffer" class="side-panel hidden">
+      <div class="panel-header">
+        <h2>
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:middle;margin-right:6px"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+          Media Sniffer
+        </h2>
+        <div class="panel-actions">
+          <button id="btn-refresh-media" class="panel-action-btn">Scan Page</button>
+          <button class="panel-close-btn" data-panel="media-sniffer">✕</button>
+        </div>
+      </div>
+      <div class="media-filter-bar">
+        <button class="media-filter-btn active" data-filter="all">All</button>
+        <button class="media-filter-btn" data-filter="video">Video</button>
+        <button class="media-filter-btn" data-filter="audio">Audio</button>
+        <button class="media-filter-btn" data-filter="img">Images</button>
+      </div>
+      <div id="media-list" class="panel-content">
+        <p class="panel-empty">Click "Scan Page" to detect media on this page.</p>
+      </div>
+    </div>
+
+    <!-- Panel Backdrop -->
+    <div id="panel-backdrop" class="panel-backdrop hidden"></div>
+
+    <!-- Context Menu (address bar autocomplete) -->
+    <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
